@@ -1,0 +1,3 @@
+[submodule "SimpleLanguageParser"]
+	path = SimpleLanguageParser
+	url = https://github.com/Childcity/SimpleLanguageParser.git
