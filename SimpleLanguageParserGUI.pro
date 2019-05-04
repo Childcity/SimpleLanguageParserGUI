@@ -27,7 +27,9 @@ SOURCES += \
     SimpleLanguageParser/SyntacticAnalyzerRecursiveDown/syntacticalanalyzer.cpp \
     SimpleLanguageParser/ASTree/astnode.cpp \
     SimpleLanguageParser/gorodlangexception.cpp \
-    SimpleLanguageParser/gorodlangtokens.cpp
+    SimpleLanguageParser/gorodlangtokens.cpp \
+    SimpleLanguageParser/SyntacticAnalyzerRecursiveDown/reversepolishnotationbuilder.cpp \
+    SimpleLanguageParser/Executor/executor.cpp
 
 HEADERS += \
         MainWindow/mainwindow.h \
@@ -38,7 +40,9 @@ HEADERS += \
     SimpleLanguageParser/SyntacticAnalyzerRecursiveDown/syntacticalanalyzer.h \
     SimpleLanguageParser/ASTree/astnode.h \
     SimpleLanguageParser/gorodlangexception.h \
-    SimpleLanguageParser/gorodlangtokens.h
+    SimpleLanguageParser/gorodlangtokens.h \
+    SimpleLanguageParser/SyntacticAnalyzerRecursiveDown/reversepolishnotationbuilder.h \
+    SimpleLanguageParser/Executor/executor.h
 
 DESTDIR = build/
 OBJECTS_DIR = obj/

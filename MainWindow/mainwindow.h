@@ -3,8 +3,10 @@
 
 #include "main.h"
 #include "syntacticalanalyzer.h"
+#include "reversepolishnotationbuilder.h"
 #include "lexicalanalyzer.h"
 #include "gorodlangexception.h"
+#include <Executor/executor.h>
 #include <QMainWindow>
 #include <QTimer>
 #include <QFuture>
@@ -42,7 +44,10 @@ private:
     static QVariantMap ParseGorodLang(const QString &inputProg);
 
     void setErrorPosition();
+
     void setLexerTable(const QString &lexerTable);
+
+    void executeGorodProg() const;
 
 private:
     Ui::MainWindow *ui;
@@ -52,6 +57,8 @@ private:
     int lastErrorPos_, lastErrorLine_;
     QGraphicsScene scene_;
     QGraphicsView view_;
+
+    Executor executor;
 
     bool isErrorUnderling;
 };

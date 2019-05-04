@@ -48,10 +48,57 @@ MainWindow::MainWindow(QWidget *parent) :
                 lastErrorLine_ = 0;
             }
             setLexerTable(res["lexTable"].toString());
+            ui->label_3->setText(res["polish"].toString());
             parserResult_ = nullptr;
             scene_.clear();
+
+            if(lastErrorLine_)
+                return ;
+
+            executor.setIsRunning(true);
+            executor.exec(lastAstTree_);
         }
-        timer_.start(300);
+    });
+
+    QObject::connect(&executor, &Executor::sigWriteText, this, [this](qint64 number){
+        ui->plainTextEdit_2->appendPlainText(QString("%1").arg(number));
+    });
+
+    QObject::connect(&executor, &Executor::sigReadText, this, [this](qint64 &number){
+        QEventLoop evLoop;
+        QString value;
+
+        ui->plainTextEdit_2->appendPlainText("\n");
+        int oldPos = ui->plainTextEdit_2->textCursor().position();
+
+        QMetaObject::Connection conn;
+        conn = connect(ui->plainTextEdit_2, &QPlainTextEdit::textChanged, this, [&, this]{
+            if(! executor.isRunning()){
+                disconnect(conn);
+                evLoop.quit();
+                return;
+            }
+
+            QTextCursor c = ui->plainTextEdit_2->textCursor();
+            c.setPosition(oldPos, QTextCursor::KeepAnchor);
+            value = c.selectedText();
+            if(value.contains("\xE2\x80\xA9")){
+                value = value.split("\xE2\x80\xA9").first();
+                if(! value.isEmpty()){
+                    disconnect(conn);
+                    evLoop.quit();
+                }
+            }
+        });
+
+        evLoop.exec();
+
+        bool ok;
+        number = value.toLongLong(&ok);
+        if(! ok && executor.isRunning()){
+            executor.setIsRunning(false);
+            ui->plainTextEdit_2->appendPlainText("exception: NaN");
+        }
     });
 
     timer_.start(300);
@@ -75,6 +122,9 @@ void MainWindow::on_plainTextEdit_textChanged()
     for(int i = 1; i <= maxLines; ++i)
         lines += QString::number(i) + "\n";
     ui->label_2->setText(lines);
+
+    executor.setIsRunning(false);
+    ui->plainTextEdit_2->clear();
 
     parserResult_ = new QFuture<QVariantMap>;
     *parserResult_ = QtConcurrent::run(ParseGorodLang, ui->plainTextEdit->toPlainText());
@@ -101,7 +151,10 @@ QVariantMap MainWindow::ParseGorodLang(const QString &inputProg){
             qDebug()<<"\n";
 
             lastAstTree_ = SyntacticalAnalyzer::Parse(lexResult);
+            ReversePolishNotationBuilder rpnBuilder(lastAstTree_);
+            QVariantList rpnLst = rpnBuilder.Generate();
             result["message"] = "<b>Status:</b><br>Lexical analize: <i>OK</i><br>Syntactical analize: <i>OK</i>";
+            result["polish"] = rpnLst.at(rpnLst.size()-2).toMap()["polish"].toString();DEBUGM(result["polish"]<<rpnBuilder.toRawJson().data())
         } catch (LexicalException &e) {
             result["isPosWord"] = false;
             throw;
@@ -152,6 +205,10 @@ void MainWindow::setErrorPosition()
 
     // = ui->plainTextEdit->currentCharFormat();
     newcharfmt.setUnderlineColor(QColor(Qt::red));
+    QFont errorFont(ui->plainTextEdit->font());
+    errorFont.setBold(true);
+    newcharfmt.setFont(errorFont);
+    newcharfmt.setFontPointSize(errorFont.pointSize() + 1);
     newcharfmt.setUnderlineStyle(QTextCharFormat::WaveUnderline);
     ui->plainTextEdit->setCurrentCharFormat( newcharfmt );
 
