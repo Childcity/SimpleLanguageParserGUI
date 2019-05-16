@@ -155,15 +155,15 @@ QVariantMap MainWindow::ParseGorodLang(const QString &inputProg){
             QVariantList rpnLst = rpnBuilder.Generate();
             result["message"] = "<b>Status:</b><br>Lexical analize: <i>OK</i><br>Syntactical analize: <i>OK</i>";
             result["polish"] = rpnLst.at(rpnLst.size()-2).toMap()["polish"].toString();DEBUGM(result["polish"]<<rpnBuilder.toRawJson().data())
-        } catch (LexicalException &e) {
+        } catch (LexicalParserBaseException &e) {
             result["isPosWord"] = false;
             throw;
-        } catch (SyntacticalException &e){
+        } catch (SyntacticalParserBaseException &e){
             result["isPosWord"] = true;
             throw;
         }
     } catch (Gorod::Exception &e) {
-        result["message"] = "<b>Status:</b> <i>" + e.what() +"</i>";
+        result["message"] = QString("<b>Status:</b><br>") + (result["isPosWord"].toBool() ? "Lexical analize: <i>OK</i><br>" : "") + e.what();
         result["line"] = e.getLine();
         result["pos"] = e.getPos();
     }
