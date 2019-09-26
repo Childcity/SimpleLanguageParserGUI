@@ -2,24 +2,24 @@
 Implementation of GUI for [SimleLanguageParser project](https://github.com/Childcity/SimpleLanguageParser)
 
 ## Algorithm of this parser
-  **Input Text**            *(written with my own syntax)*
-      |
-     \|/
-**Lexical Analyzer**      *(devide text on* **lexems** *and check all allowed symbols)*
-      |
-     \|/
-**List of Lexems**        *(* **intermediate** *representation of input lexems as json list)*
-      |
-     \|/
-**Syntactic Analyzer**    *(check on valid syntax and build AST tree as result)*
-      |
-     \|/ 
-   **AST Tree**           *(* **intermediate** *representation of input program)*
-      |
-     \|/ 
-   **Reverse**
-**Polish Notation**       *(well, no comments)*
- **and Executing**
+.  **Input Text**            *(written with my own syntax)*
+.      |
+.     \|/
+.**Lexical Analyzer**      *(devide text on* **lexems** *and check all allowed symbols)*
+.      |
+.     \|/
+.**List of Lexems**        *(* **intermediate** *representation of input lexems as json list)*
+.      |
+.     \|/
+.**Syntactic Analyzer**    *(check on valid syntax and build AST tree as result)*
+.      |
+.     \|/ 
+.   **AST Tree**           *(* **intermediate** *representation of input program)*
+.      |
+.     \|/ 
+.   **Reverse**
+.**Polish Notation**       *(well, no comments)*
+. **and Executing**
 
 ## Screenshots of running program you can see below:
 
