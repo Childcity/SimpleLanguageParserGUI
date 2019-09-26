@@ -2,24 +2,29 @@
 Implementation of GUI for [SimleLanguageParser project](https://github.com/Childcity/SimpleLanguageParser)
 
 ## Algorithm of this parser
-  **Input Text**            *(written with my own syntax)*
+&emsp;**Input Text**&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;*(written with my own syntax)*
+
+       |
+      \|
+**Lexical Analyzer**&emsp;&emsp;&emsp;&emsp;&emsp;*(devide text on `lexems` and check all allowed symbols)*
+
       |
      \|
-**Lexical Analyzer**      *(devide text on* **lexems** *and check all allowed symbols)*
+**List of Lexems**&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;*( `intermediate` representation of input lexems as json list)*
+
       |
      \|
-**List of Lexems**        *(* **intermediate** *representation of input lexems as json list)*
-      |
-     \|
-**Syntactic Analyzer**    *(check on valid syntax and build AST tree as result)*
+**Syntactic Analyzer**&emsp;&emsp;&emsp;&emsp;*(check on valid syntax and build `AST tree` as result)*
+
       |
      \| 
-   **AST Tree**           *(* **intermediate** *representation of input program)*
+&emsp;&emsp;**AST Tree**&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;*( `intermediate` representation of input program)*\
+   
       |
      \|
-   **Reverse**
-**Polish Notation**       *(well, no comments)*
- **and Executing**
+&emsp;&emsp;**Reverse**\
+**Polish Notation**&emsp;&emsp;&emsp;&emsp;&emsp;*(well, no comments)*\
+&emsp;**and Executing**
 
 ## Screenshots of running program you can see below:
 
